@@ -25,5 +25,18 @@ services:
     env_file:
       - .env
 
+  logstash:
+    build: ./logstash
+    ports:
+      - '9600:9600'
+      - '514:514'
+    env_file:
+      - .env
+    volumes:
+      - ./logstash/logstash.conf:/logstash_dir/logstash.conf
+      - volume_logstash:/var/log/docker_logs
+    command: logstash -f /logstash_dir/logstash.conf
+
 volumes:
   volume_mongo:
+  volume_logstash:
